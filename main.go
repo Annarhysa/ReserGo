@@ -1,62 +1,101 @@
 package main
 
 import (
+	"ReserGo/helper"
 	"fmt"
-	"strings"
+	"strconv"
 )
 
-func main() {
-	appName := "ReserGo"
-	const noOfTickets int = 100
-	var remainingTickets uint = 100
-	bookings := []string{}
+var appName = "ReserGo"
 
-	fmt.Printf("Welcome to %v !\n", appName)
-	fmt.Printf("We have total %v tickets and %v tickets are available\n", noOfTickets, remainingTickets)
-	fmt.Println("Get your tickets here to attend the conference")
+const noOfTickets int = 100
+
+var remainingTickets uint = 100
+var bookings = make([]map[string]string, 0)
+
+func main() {
+
+	greetUser()
 
 	for {
-		var firstName string
-		var lastName string
-		var email string
-		var userTickets uint
+		firstName, lastName, email, userTickets := getUserInput()
 
-		fmt.Println("Enter your first name: ")
-		fmt.Scan(&firstName)
+		isValidName, isValidEmail, isValidTicketNumber := helper.ValidateUserInput(firstName, lastName, email, userTickets, remainingTickets)
 
-		fmt.Println("Enter your last name: ")
-		fmt.Scan(&lastName)
+		if isValidName && isValidEmail && isValidTicketNumber {
+			bookTicket(userTickets, firstName, lastName, email)
 
-		fmt.Println("Enter your email: ")
-		fmt.Scan(&email)
-
-		fmt.Println("Enter number of tickets: ")
-		fmt.Scan(&userTickets)
-
-		if userTickets <= remainingTickets {
-			remainingTickets = remainingTickets - userTickets
-
-			bookings = append(bookings, firstName+" "+lastName)
-
-			fmt.Printf("Thank you %v %v for booking %v tickets. You will recieve your booking confirmation on %v email\n", firstName, lastName, userTickets, email)
-			fmt.Printf("Now we have %v tickets available\n", remainingTickets)
-
-			firstNames := []string{}
-
-			for _, booking := range bookings {
-				var names = strings.Fields(booking)
-				firstNames = append(firstNames, names[0])
-			}
-
-			fmt.Printf("All the bookings: %v\n", firstNames)
+			printFirstNames()
 
 			if remainingTickets == 0 {
 				fmt.Println("All tickets are sold out!")
 				break
 			}
+
 		} else {
-			fmt.Printf("Sorry! We have only %v tickets available, so you can't book %v tickets\n", remainingTickets, userTickets)
+			if !isValidName {
+				fmt.Println("First name or last name you entered is too short")
+			}
+			if !isValidEmail {
+				fmt.Println("Email address you entered is not valid")
+			}
+			if !isValidTicketNumber {
+				fmt.Println("Number of tickets you entered is invalid")
+			}
+			if userTickets > remainingTickets {
+				fmt.Printf("Sorry! We have only %v tickets available, so you can't book %v tickets\n", remainingTickets, userTickets)
+			}
 		}
 
 	}
+}
+
+func greetUser() {
+	fmt.Printf("Welcome to %v booking application\n", appName)
+	fmt.Printf("We have total %v tickets and %v tickets are available\n", noOfTickets, remainingTickets)
+	fmt.Println("Get your tickets here to attend the conference")
+}
+
+func printFirstNames() {
+	firstNames := []string{}
+	for _, booking := range bookings {
+		firstNames = append(firstNames, booking["firstName"])
+	}
+	fmt.Printf("All the bookings: \n%v\n", firstNames)
+}
+
+func getUserInput() (string, string, string, uint) {
+	var firstName string
+	var lastName string
+	var email string
+	var userTickets uint
+
+	fmt.Println("Enter your first name: ")
+	fmt.Scan(&firstName)
+
+	fmt.Println("Enter your last name: ")
+	fmt.Scan(&lastName)
+
+	fmt.Println("Enter your email: ")
+	fmt.Scan(&email)
+
+	fmt.Println("Enter number of tickets: ")
+	fmt.Scan(&userTickets)
+
+	return firstName, lastName, email, userTickets
+}
+
+func bookTicket(userTickets uint, firstName string, lastName string, email string) {
+	remainingTickets = remainingTickets - userTickets
+
+	var userData = make(map[string]string)
+	userData["firstName"] = firstName
+	userData["lastName"] = lastName
+	userData["email"] = email
+	userData["numberOfTickets"] = strconv.FormatUint(uint64(userTickets), 10)
+
+	bookings = append(bookings, userData)
+
+	fmt.Printf("Thank you %v %v for booking %v tickets. You will recieve your booking confirmation on %v email\n", firstName, lastName, userTickets, email)
+	fmt.Printf("Now we have %v tickets available\n", remainingTickets)
 }
