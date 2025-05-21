@@ -3,7 +3,6 @@ package main
 import (
 	"ReserGo/helper"
 	"fmt"
-	"strconv"
 )
 
 var appName = "ReserGo"
@@ -11,7 +10,15 @@ var appName = "ReserGo"
 const noOfTickets int = 100
 
 var remainingTickets uint = 100
-var bookings = make([]map[string]string, 0)
+var bookings = make([]UserData, 0)
+
+type UserData struct {
+	firstName              string
+	lastName               string
+	email                  string
+	numberOftickets        uint
+	isOptedInForNewsLetter bool
+}
 
 func main() {
 
@@ -59,7 +66,7 @@ func greetUser() {
 func printFirstNames() {
 	firstNames := []string{}
 	for _, booking := range bookings {
-		firstNames = append(firstNames, booking["firstName"])
+		firstNames = append(firstNames, booking.firstName)
 	}
 	fmt.Printf("All the bookings: \n%v\n", firstNames)
 }
@@ -88,11 +95,13 @@ func getUserInput() (string, string, string, uint) {
 func bookTicket(userTickets uint, firstName string, lastName string, email string) {
 	remainingTickets = remainingTickets - userTickets
 
-	var userData = make(map[string]string)
-	userData["firstName"] = firstName
-	userData["lastName"] = lastName
-	userData["email"] = email
-	userData["numberOfTickets"] = strconv.FormatUint(uint64(userTickets), 10)
+	var userData = UserData{
+		firstName:              firstName,
+		lastName:               lastName,
+		email:                  email,
+		numberOftickets:        userTickets,
+		isOptedInForNewsLetter: false,
+	}
 
 	bookings = append(bookings, userData)
 
