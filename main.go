@@ -3,6 +3,8 @@ package main
 import (
 	"ReserGo/helper"
 	"fmt"
+	"sync"
+	"time"
 )
 
 var appName = "ReserGo"
@@ -20,43 +22,44 @@ type UserData struct {
 	isOptedInForNewsLetter bool
 }
 
+var wg = sync.WaitGroup{}
+
 func main() {
 
 	greetUser()
 
-	for {
-		firstName, lastName, email, userTickets := getUserInput()
+	firstName, lastName, email, userTickets := getUserInput()
 
-		isValidName, isValidEmail, isValidTicketNumber := helper.ValidateUserInput(firstName, lastName, email, userTickets, remainingTickets)
+	isValidName, isValidEmail, isValidTicketNumber := helper.ValidateUserInput(firstName, lastName, email, userTickets, remainingTickets)
 
-		if isValidName && isValidEmail && isValidTicketNumber {
-			bookTicket(userTickets, firstName, lastName, email)
+	if isValidName && isValidEmail && isValidTicketNumber {
+		bookTicket(userTickets, firstName, lastName, email)
 
-			sendTicket(userTickets, firstName, lastName, email)
+		wg.Add(1)
+		go sendTicket(userTickets, firstName, lastName, email)
 
-			printFirstNames()
+		printFirstNames()
 
-			if remainingTickets == 0 {
-				fmt.Println("All tickets are sold out!")
-				break
-			}
-
-		} else {
-			if !isValidName {
-				fmt.Println("First name or last name you entered is too short")
-			}
-			if !isValidEmail {
-				fmt.Println("Email address you entered is not valid")
-			}
-			if !isValidTicketNumber {
-				fmt.Println("Number of tickets you entered is invalid")
-			}
-			if userTickets > remainingTickets {
-				fmt.Printf("Sorry! We have only %v tickets available, so you can't book %v tickets\n", remainingTickets, userTickets)
-			}
+		if remainingTickets == 0 {
+			fmt.Println("All tickets are sold out!")
+			// break
 		}
 
+	} else {
+		if !isValidName {
+			fmt.Println("First name or last name you entered is too short")
+		}
+		if !isValidEmail {
+			fmt.Println("Email address you entered is not valid")
+		}
+		if !isValidTicketNumber {
+			fmt.Println("Number of tickets you entered is invalid")
+		}
+		if userTickets > remainingTickets {
+			fmt.Printf("Sorry! We have only %v tickets available, so you can't book %v tickets\n", remainingTickets, userTickets)
+		}
 	}
+	wg.Wait()
 }
 
 func greetUser() {
@@ -112,8 +115,10 @@ func bookTicket(userTickets uint, firstName string, lastName string, email strin
 }
 
 func sendTicket(userTickets uint, firstName string, lastName string, email string) {
+	time.Sleep(10 * time.Second)
 	var ticket = fmt.Sprintf("%v tickets for %v %v", userTickets, firstName, lastName)
 	fmt.Println("#########################")
 	fmt.Printf("Sending ticket:\n%v \nto email address %v\n", ticket, email)
 	fmt.Println("#########################")
+	wg.Done()
 }
