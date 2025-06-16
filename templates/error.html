@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="/static/style.css" />
+    <title>Error</title>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+        <img src="/static/logo.png" alt="ReserGo Logo" class="logo" />
+        <span class="app-name">{{.AppName}}</span>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>Error</h1>
+        <p style="color:red;">{{.Message}}</p>
+        <a href="/">Go back to booking form</a>
+    </div>
+
+    <footer class="footer">
+        <p>Created by Annarhysa Albert | 
+        <a href="https://www.linkedin.com/in/annarhysa-albert" target="_blank" rel="noopener">LinkedIn</a> | 
+        <a href="https://github.com/yourusername/ReserGo" target="_blank" rel="noopener">Source Code</a>
+        </p>
+    </footer>
+</body>
+</html>

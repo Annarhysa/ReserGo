@@ -1,0 +1,190 @@
+/* Reset some default styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg,#d5b893 0%, #34495e 10%, #6F4D38 20%, #34495e 40%, #6F4D38 60%, #34495e 70%, #6F4D38 80%, #d5b893 100%);
+    color: #fff;
+    min-height: 100vh;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 20px;
+}
+
+.container {
+    background: #25344F;
+    margin-top: 100px;
+    margin-bottom: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 800px;
+    width: 100%;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px #632024;
+    transition: box-shadow 0.3s ease;
+}
+
+.container:hover {
+    box-shadow: 0 12px 36px rgba(0,0,0,0.25);
+}
+
+h1 {
+    font-weight: 700;
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+    color: #fff;
+    text-align: center;
+}
+
+p {
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    text-align: center;
+    font-weight: 700;
+    color: #d5b893;
+}
+
+form label {
+    display: block;
+    margin-bottom: 12px;
+    font-weight: 600;
+    color: #fff;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="number"] {
+    width: 100%;
+    padding: 12px 15px;
+    margin-top: 6px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="number"]:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0 0 8px rgba(52, 152, 219, 0.3);
+}
+
+input[type="checkbox"] {
+    transform: scale(1.2);
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.newsletter-label {
+    font-weight: 500;
+    color: #34495e;
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+    user-select: none;
+}
+
+button {
+    width: 100%;
+    background: #d5b893;
+    color: #632024;
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 14px 0;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 6px 12px #6F4D38;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+button:hover {
+    background: #632024;
+    color: #d5b893;
+    box-shadow: 0 8px 18px #6F4D38;
+}
+
+button:active {
+    background: #d5b893;
+    box-shadow: 0 4px 10px #6F4D38;
+}
+
+/* Responsive */
+@media (max-width: 520px) {
+    .container {
+        padding: 25px 20px;
+        margin: 0 10px;
+    }
+}
+
+/* Navbar styles */
+.navbar {
+  width: 100%;
+  background-color: #632024;
+  padding: 12px 20px;
+  box-shadow: 0 2px 6px #6F4D38;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.navbar-container {
+  max-width: 480px;
+  align-items: center;
+  display: flex;
+}
+
+.logo {
+  height: 36px;
+  width: 36px;
+  margin-right: 12px;
+}
+
+.app-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #d5b893;
+}
+
+
+/* Footer styles */
+.footer {
+  width: 100%;
+  background-color: #632024;
+  color: #6F4D38;
+  text-align: center;
+  padding: 16px 20px;
+  font-size: 0.9rem;
+  box-shadow: 0 -2px 6px #6F4D38;
+  /* Remove fixed positioning */
+  position: static; /* or just remove this line */
+  margin-top: 40px; /* space above footer */
+  display: flex;
+  margin-bottom: 0%;
+}
+
+.footer a {
+  color: #d5b893;
+  text-decoration: none;
+  margin: 0 6px;
+}
+
+.footer p {
+    color: #fff;
+    font-style: italic;
+}
+
+.footer a:hover {
+    text-shadow: 0 4px 10px #6F4D38;;
+    text-decoration: underline;
+}
