@@ -166,11 +166,7 @@ button:active {
   padding: 16px 20px;
   font-size: 0.9rem;
   box-shadow: 0 -2px 6px #6F4D38;
-  /* Remove fixed positioning */
-  position: static; /* or just remove this line */
-  margin-top: 40px; /* space above footer */
-  display: flex;
-  margin-bottom: 0%;
+  margin-top: 40px;
 }
 
 .footer a {
