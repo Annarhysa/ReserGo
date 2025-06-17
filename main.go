@@ -29,7 +29,26 @@ type UserData struct {
 	IsOptedInForNewsLetter bool
 }
 
-var templates = template.Must(template.ParseFiles("templates/index.html", "templates/confirmation.html", "templates/error.html"))
+// Unified struct for passing data to templates
+type TemplateData struct {
+	AppName          string
+	RemainingTickets uint
+	TotalTickets     uint
+	Message          string
+
+	// Fields for confirmation page
+	FirstName       string
+	LastName        string
+	Email           string
+	NumberOfTickets uint
+	Remaining       uint
+}
+
+var templates = template.Must(template.ParseFiles(
+	"templates/layout.html",
+	"templates/index.html",
+	"templates/confirmation.html",
+	"templates/error.html"))
 
 func main() {
 	http.HandleFunc("/", homeHandler)
@@ -45,19 +64,17 @@ func main() {
 // homeHandler serves the booking form
 func homeHandler(w http.ResponseWriter, r *http.Request) {
 	mutex.Lock()
-	data := struct {
-		AppName          string
-		RemainingTickets uint
-		TotalTickets     uint
-	}{
+	data := TemplateData{
 		AppName:          appName,
 		RemainingTickets: remainingTickets,
 		TotalTickets:     totalTickets,
 	}
 	mutex.Unlock()
 
-	if err := templates.ExecuteTemplate(w, "index.html", data); err != nil {
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+	if err := templates.ExecuteTemplate(w, "layout.html", data); err != nil {
+		log.Printf("Template execution error in homeHandler: %v", err)
+		renderError(w, "Internal Server Error")
+		return
 	}
 }
 
@@ -116,30 +133,35 @@ func bookHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	bookings = append(bookings, userData)
 
-	// Render confirmation page
-	data := struct {
-		FirstName       string
-		LastName        string
-		Email           string
-		NumberOfTickets uint
-		Remaining       uint
-	}{
+	// Render confirmation page with expected data fields
+	data := TemplateData{
 		FirstName:       firstName,
 		LastName:        lastName,
 		Email:           email,
 		NumberOfTickets: userTickets,
 		Remaining:       remainingTickets,
+		AppName:         appName,
 	}
 
-	if err := templates.ExecuteTemplate(w, "confirmation.html", data); err != nil {
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+	if err := templates.ExecuteTemplate(w, "layout.html", data); err != nil {
+		log.Printf("Template execution error in bookHandler: %v", err)
+		renderError(w, "Internal Server Error")
+		return
 	}
 }
 
+// renderError renders the error page with the given message
 func renderError(w http.ResponseWriter, message string) {
+	log.Printf("renderError called with message: %s", message)
+	data := TemplateData{
+		AppName: appName,
+		Message: message,
+	}
+
 	w.WriteHeader(http.StatusBadRequest)
-	err := templates.ExecuteTemplate(w, "error.html", struct{ Message string }{Message: message})
+	err := templates.ExecuteTemplate(w, "layout.html", data)
 	if err != nil {
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		log.Printf("Error rendering error template: %v", err)
+		// Do NOT call http.Error again because headers are already sent
 	}
 }
