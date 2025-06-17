@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="/static/style.css" />
+    <title>{{.AppName}} - Book Tickets</title>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+        <img src="/static/logo.png" alt="ReserGo Logo" class="logo" />
+        <span class="app-name">{{.AppName}}</span>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>Welcome to {{.AppName}} Booking Application</h1>
+        <p>We have {{.TotalTickets}} tickets in total, and {{.RemainingTickets}} tickets are available.</p>
+
+        <form action="/book" method="POST">
+            <label>First Name: <input type="text" name="firstName" required minlength="2" /></label><br/><br/>
+            <label>Last Name: <input type="text" name="lastName" required minlength="2" /></label><br/><br/>
+            <label>Email: <input type="email" name="email" required /></label><br/><br/>
+            <label>Number of Tickets: <input type="number" name="tickets" min="1" max="{{.RemainingTickets}}" required /></label><br/><br/>
+            <label><input type="checkbox" name="newsletter" /> Opt-in for newsletter</label><br/><br/>
+            <button type="submit">Book Tickets</button>
+        </form>
+    </div>
+</body>
+<footer class="footer">
+    <p>Created by Annarhysa Albert | 
+    <a href="https://www.linkedin.com/in/annarhysa-albert" target="_blank" rel="noopener">LinkedIn</a> | 
+    <a href="https://github.com/yourusername/ReserGo" target="_blank" rel="noopener">Source Code</a>
+    </p>
+</footer>
+</html>

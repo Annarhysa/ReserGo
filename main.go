@@ -3,122 +3,143 @@ package main
 import (
 	"ReserGo/helper"
 	"fmt"
+	"html/template"
+	"log"
+	"net/http"
+	"strconv"
 	"sync"
-	"time"
 )
 
-var appName = "ReserGo"
+const (
+	appName      = "ReserGo"
+	totalTickets = 100
+)
 
-const noOfTickets int = 100
-
-var remainingTickets uint = 100
-var bookings = make([]UserData, 0)
+var (
+	remainingTickets uint = totalTickets
+	bookings              = make([]UserData, 0)
+	mutex            sync.Mutex
+)
 
 type UserData struct {
-	firstName              string
-	lastName               string
-	email                  string
-	numberOftickets        uint
-	isOptedInForNewsLetter bool
+	FirstName              string
+	LastName               string
+	Email                  string
+	NumberOfTickets        uint
+	IsOptedInForNewsLetter bool
 }
 
-var wg = sync.WaitGroup{}
+var templates = template.Must(template.ParseFiles("templates/index.html", "templates/confirmation.html", "templates/error.html"))
 
 func main() {
+	http.HandleFunc("/", homeHandler)
+	http.HandleFunc("/book", bookHandler)
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 
-	greetUser()
+	fmt.Printf("Starting %s server on http://localhost:8080\n", appName)
+	if err := http.ListenAndServe(":8080", nil); err != nil {
+		log.Fatal(err)
+	}
+}
 
-	firstName, lastName, email, userTickets := getUserInput()
+// homeHandler serves the booking form
+func homeHandler(w http.ResponseWriter, r *http.Request) {
+	mutex.Lock()
+	data := struct {
+		AppName          string
+		RemainingTickets uint
+		TotalTickets     uint
+	}{
+		AppName:          appName,
+		RemainingTickets: remainingTickets,
+		TotalTickets:     totalTickets,
+	}
+	mutex.Unlock()
+
+	if err := templates.ExecuteTemplate(w, "index.html", data); err != nil {
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+	}
+}
+
+// bookHandler processes the booking form submission
+func bookHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+		return
+	}
+
+	err := r.ParseForm()
+	if err != nil {
+		renderError(w, "Invalid form data")
+		return
+	}
+
+	firstName := r.FormValue("firstName")
+	lastName := r.FormValue("lastName")
+	email := r.FormValue("email")
+	ticketsStr := r.FormValue("tickets")
+	newsletter := r.FormValue("newsletter") == "on"
+
+	userTickets64, err := strconv.ParseUint(ticketsStr, 10, 32)
+	if err != nil || userTickets64 == 0 {
+		renderError(w, "Please enter a valid number of tickets")
+		return
+	}
+	userTickets := uint(userTickets64)
+
+	mutex.Lock()
+	defer mutex.Unlock()
 
 	isValidName, isValidEmail, isValidTicketNumber := helper.ValidateUserInput(firstName, lastName, email, userTickets, remainingTickets)
 
-	if isValidName && isValidEmail && isValidTicketNumber {
-		bookTicket(userTickets, firstName, lastName, email)
-
-		wg.Add(1)
-		go sendTicket(userTickets, firstName, lastName, email)
-
-		printFirstNames()
-
-		if remainingTickets == 0 {
-			fmt.Println("All tickets are sold out!")
-			// break
-		}
-
-	} else {
-		if !isValidName {
-			fmt.Println("First name or last name you entered is too short")
-		}
-		if !isValidEmail {
-			fmt.Println("Email address you entered is not valid")
-		}
-		if !isValidTicketNumber {
-			fmt.Println("Number of tickets you entered is invalid")
-		}
-		if userTickets > remainingTickets {
-			fmt.Printf("Sorry! We have only %v tickets available, so you can't book %v tickets\n", remainingTickets, userTickets)
-		}
+	if !isValidName {
+		renderError(w, "First name and last name must be at least 2 characters long")
+		return
 	}
-	wg.Wait()
-}
-
-func greetUser() {
-	fmt.Printf("Welcome to %v booking application\n", appName)
-	fmt.Printf("We have total %v tickets and %v tickets are available\n", noOfTickets, remainingTickets)
-	fmt.Println("Get your tickets here to attend the conference")
-}
-
-func printFirstNames() {
-	firstNames := []string{}
-	for _, booking := range bookings {
-		firstNames = append(firstNames, booking.firstName)
+	if !isValidEmail {
+		renderError(w, "Email address is invalid")
+		return
 	}
-	fmt.Printf("All the bookings: \n%v\n", firstNames)
-}
-
-func getUserInput() (string, string, string, uint) {
-	var firstName string
-	var lastName string
-	var email string
-	var userTickets uint
-
-	fmt.Println("Enter your first name: ")
-	fmt.Scan(&firstName)
-
-	fmt.Println("Enter your last name: ")
-	fmt.Scan(&lastName)
-
-	fmt.Println("Enter your email: ")
-	fmt.Scan(&email)
-
-	fmt.Println("Enter number of tickets: ")
-	fmt.Scan(&userTickets)
-
-	return firstName, lastName, email, userTickets
-}
-
-func bookTicket(userTickets uint, firstName string, lastName string, email string) {
-	remainingTickets = remainingTickets - userTickets
-
-	var userData = UserData{
-		firstName:              firstName,
-		lastName:               lastName,
-		email:                  email,
-		numberOftickets:        userTickets,
-		isOptedInForNewsLetter: false,
+	if !isValidTicketNumber {
+		renderError(w, fmt.Sprintf("Number of tickets must be between 1 and %d", remainingTickets))
+		return
 	}
 
+	// Book tickets
+	remainingTickets -= userTickets
+	userData := UserData{
+		FirstName:              firstName,
+		LastName:               lastName,
+		Email:                  email,
+		NumberOfTickets:        userTickets,
+		IsOptedInForNewsLetter: newsletter,
+	}
 	bookings = append(bookings, userData)
 
-	fmt.Printf("Thank you %v %v for booking %v tickets. You will recieve your booking confirmation on %v email\n", firstName, lastName, userTickets, email)
-	fmt.Printf("Now we have %v tickets available\n", remainingTickets)
+	// Render confirmation page
+	data := struct {
+		FirstName       string
+		LastName        string
+		Email           string
+		NumberOfTickets uint
+		Remaining       uint
+	}{
+		FirstName:       firstName,
+		LastName:        lastName,
+		Email:           email,
+		NumberOfTickets: userTickets,
+		Remaining:       remainingTickets,
+	}
+
+	if err := templates.ExecuteTemplate(w, "confirmation.html", data); err != nil {
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+	}
 }
 
-func sendTicket(userTickets uint, firstName string, lastName string, email string) {
-	time.Sleep(10 * time.Second)
-	var ticket = fmt.Sprintf("%v tickets for %v %v", userTickets, firstName, lastName)
-	fmt.Println("#########################")
-	fmt.Printf("Sending ticket:\n%v \nto email address %v\n", ticket, email)
-	fmt.Println("#########################")
-	wg.Done()
+func renderError(w http.ResponseWriter, message string) {
+	w.WriteHeader(http.StatusBadRequest)
+	err := templates.ExecuteTemplate(w, "error.html", struct{ Message string }{Message: message})
+	if err != nil {
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+	}
 }
