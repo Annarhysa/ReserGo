@@ -8,8 +8,7 @@
 <body>
     <nav class="navbar">
         <div class="navbar-container">
-        <img src="/static/logo.png" alt="ReserGo Logo" class="logo" />
-        <span class="app-name">{{.AppName}}</span>
+        <img src="/static/logo.png" alt="ReserGo Logo" class="logo"/>
         </div>
     </nav>
 
@@ -18,8 +17,8 @@
         <p>We have {{.TotalTickets}} tickets in total, and {{.RemainingTickets}} tickets are available.</p>
 
         <form action="/book" method="POST">
-            <label>First Name: <input type="text" name="firstName" required minlength="2" /></label><br/><br/>
-            <label>Last Name: <input type="text" name="lastName" required minlength="2" /></label><br/><br/>
+            <label>First Name: <input type="text" name="firstName" required minlength="1" /></label><br/><br/>
+            <label>Last Name: <input type="text" name="lastName" required minlength="1" /></label><br/><br/>
             <label>Email: <input type="email" name="email" required /></label><br/><br/>
             <label>Number of Tickets: <input type="number" name="tickets" min="1" max="{{.RemainingTickets}}" required /></label><br/><br/>
             <label><input type="checkbox" name="newsletter" /> Opt-in for newsletter</label><br/><br/>
