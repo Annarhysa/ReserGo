@@ -29,7 +29,7 @@ type UserData struct {
 	IsOptedInForNewsLetter bool
 }
 
-var templates = template.Must(template.ParseFiles("templates/index.html", "templates/confirmation.html", "templates/error.html"))
+var templates = template.Must(template.ParseFiles("templates/index.html", "templates/confirmation.html", "templates/error.html" ))
 
 func main() {
 	http.HandleFunc("/", homeHandler)

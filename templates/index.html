@@ -1,36 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="/static/style.css" />
     <title>{{.AppName}} - Book Tickets</title>
-</head>
-<body>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- added the meta data for making webpage repsonsive -->
+  </head>
+  <body>
     <nav class="navbar">
-        <div class="navbar-container">
-        <img src="/static/logo.png" alt="ReserGo Logo" class="logo"/>
-        </div>
+      <div class="navbar-container">
+        <img src="/static/logo.png" alt="ReserGo Logo" class="logo" />
+      </div>
+
+      <div class="user-image">
+        <img
+          src="https://avatars.githubusercontent.com/u/91026126?v=4"
+          alt=""
+          class="user"
+        />
+      </div>
     </nav>
 
-    <div class="container">
-        <h1>Welcome to {{.AppName}} Booking Application</h1>
-        <p>We have {{.TotalTickets}} tickets in total, and {{.RemainingTickets}} tickets are available.</p>
+    <!-- the biggest pain the ass while making a form is that the ui seems pretty boring cause all you have is your form thrown at the user. What i found to be fun is to make your form page into 2 parts, one part has the form, with the least amount of additional information, and the other one might have some image of something that realtes to your website -->
 
+    <div class="container-main-div">
+      <!-- added a new div called container-main-div where it has 2 main divs, the container-left and your container, understandable from the nomenclature. now using flex or grid here would make your job easier in handling the position of the divs -->
+      <div class="container-left">
+        <div class="container-left-img">
+          <img src="/static/tickets-image.jpg" alt="" class="container-img" />
+        </div>
+        <!-- <div class="container-app-name">
+          <div class="app-name">
+            <h1>{{.AppName}}</h1>
+          </div>
+        </div> -->
+      </div>
+
+      <div class="container">
         <form action="/book" method="POST">
-            <label>First Name: <input type="text" name="firstName" required minlength="1" /></label><br/><br/>
-            <label>Last Name: <input type="text" name="lastName" required minlength="1" /></label><br/><br/>
-            <label>Email: <input type="email" name="email" required /></label><br/><br/>
-            <label>Number of Tickets: <input type="number" name="tickets" min="1" max="{{.RemainingTickets}}" required /></label><br/><br/>
-            <label><input type="checkbox" name="newsletter" /> Opt-in for newsletter</label><br/><br/>
-            <button type="submit">Book Tickets</button>
+          <div class="app-caption">
+            <h2>Book your Tickets: <span class="h2-span">Hassle Free</span></h2>
+          </div>
+          <div class="caption">
+            <!-- We have {{.TotalTickets}} tickets in total, and {{.RemainingTickets}}
+          tickets are available. -->
+            Tickets Avaliable : {{.RemainingTickets}} / {{.TotalTickets}}
+          </div>
+          <!-- use placeholders instead of labels, much cleaner -->
+          <!-- <label
+            >First Name: -->
+          <input
+            type="text"
+            name="firstName"
+            required
+            minlength="1"
+            placeholder="First Name"
+          />
+          <!-- </label> -->
+          <br /><br />
+          <!-- <label
+            >Last Name: -->
+          <input
+            type="text"
+            name="lastName"
+            required
+            minlength="1"
+            placeholder="Last Name"
+          />
+          <!-- </label> -->
+          <br /><br />
+          <!-- <label
+            >Email: -->
+          <input
+            type="email"
+            name="email"
+            required
+            placeholder="xyz@domain.com"
+          />
+          <!-- </label> -->
+          <br /><br />
+          <!-- <label
+            >Number of Tickets: -->
+          <input
+            type="number"
+            name="tickets"
+            min="1"
+            max="{{.RemainingTickets}}"
+            placeholder="Tickets"
+            required
+          />
+          <!-- </label> -->
+          <br /><br />
+          <label class="newsletter-label">
+            <span> Opt-in for newsletter </span>
+            <input type="checkbox" name="newsletter" />
+          </label>
+
+          <button type="submit">Book Tickets</button>
         </form>
+      </div>
     </div>
 
     <footer class="footer">
-        <p>Created by Annarhysa Albert | 
-        <a href="https://www.linkedin.com/in/annarhysa-albert" target="_blank" rel="noopener">LinkedIn</a> | 
-        <a href="https://github.com/yourusername/ReserGo" target="_blank" rel="noopener">Source Code</a>
-        </p>
+      <p>
+        Created by Annarhysa Albert |
+        <a
+          href="https://www.linkedin.com/in/annarhysa-albert"
+          target="_blank"
+          rel="noopener"
+          >LinkedIn</a
+        >
+        |
+        <a
+          href="https://github.com/Annarhysa/ReserGo"
+          target="_blank"
+          rel="noopener"
+          >Source Code</a
+        >
+        <!-- incorrect link to your github -->
+      </p>
     </footer>
-</body>
+  </body>
 </html>
