@@ -44,7 +44,6 @@ body {
 
 /* container-main-div : uses flex to make the div felxible and the direction in row 
  */
-
 .container-main-div {
     display: grid;
     grid-template-columns: 2.5fr 1fr;
