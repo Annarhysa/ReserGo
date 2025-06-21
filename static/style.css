@@ -5,35 +5,98 @@
     padding: 0;
 }
 
+
+/* set some predefined values before hand so you can use them whenever you want */
+:root {
+    /* Take your custom color palette, im going with a family of blues  */
+    --blue-900: #03045E;
+    /* Deep navy */
+    --blue-700: #0077B6;
+    /* Strong blue */
+    --blue-500: #00B4D8;
+    /* Bright cyan */
+    --blue-300: #90E0EF;
+    /* Soft blue */
+    --blue-100: #CAF0F8;
+    /* Pale blue */
+}
+
+
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg,#d5b893 0%, #34495e 10%, #6F4D38 20%, #34495e 40%, #6F4D38 60%, #34495e 70%, #6F4D38 80%, #d5b893 100%);
-    color: #fff;
+    /* background: linear-gradient(135deg,#d5b893 0%, #34495e 10%, #6F4D38 20%, #34495e 40%, #6F4D38 60%, #34495e 70%, #6F4D38 80%, #d5b893 100%); */
+    /* do not go for multiple colors for your background, let it be something easy on the eyes, if you want gradients use some light colors not more than 2 or 3. using light colors for the background lets you use darker ones on componenets which will add a sense defination for em
+     */
+
+    background-color: var(--blue-100);
+    /* Light, soft background */
+    color: var(--blue-900);
     min-height: 100vh;
-    flex-direction: column;
-    display: flex;
+    /* flex-direction: column; */
+    /* generally do not using display flex directly on your body, might cause troubles for larger complex pages, always try to enclose your components in a div for better control  */
+    /* display: flex; */
     justify-content: center;
-    align-items: flex-start;
+    /* align-items: flex-start; */
     padding: 40px 20px;
 }
 
+
+/* container-main-div : uses flex to make the div felxible and the direction in row 
+ */
+
+.container-main-div {
+    display: grid;
+    grid-template-columns: 2.5fr 1fr;
+    /* gap: 50px; */
+    margin: 0 auto;
+    max-width: 100%;
+    align-items: center;
+    margin-top: 1%;
+}
+
+.container-left {
+    width: 100%;
+    height: 100%;
+    /* make it inherit full height from its parent */
+    max-height: 540px;
+    /* or however tall you want it */
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 25px;
+}
+
+.container-left-img {
+    width: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.container-img {
+    width: 100%;
+    object-fit: cover;
+    overflow: hidden;
+}
+
 .container {
-    background: #25344F;
+    /* background: #25344F;
     margin-top: 85px;
     margin-bottom: 50px;
     margin-left: auto;
     margin-right: auto;
-    max-width: 800px;
+    max-width: 800px; */
     width: 100%;
     padding: 30px 40px;
-    border-radius: 12px;
-    box-shadow: 0 8px 24px #632024;
+    /* border-radius: 12px; */
+    /* box-shadow: 0 8px 24px #632024;*/
     transition: box-shadow 0.3s ease;
 }
 
-.container:hover {
-    box-shadow: 0 12px 36px rgba(0,0,0,0.25);
-}
+/* .container:hover {
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.25);
+} */
 
 h1 {
     font-weight: 700;
@@ -64,16 +127,20 @@ input[type="number"] {
     width: 100%;
     padding: 12px 15px;
     margin-top: 6px;
-    border: 2px solid #ddd;
+    /* border: 2px solid #ddd; */
     border-radius: 8px;
     font-size: 1rem;
     transition: border-color 0.3s ease;
+    border: 1.5px solid var(--blue-300);
+    color: var(--blue-900);
+    background-color: #fff;
 }
 
 input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="number"]:focus {
-    border-color: #3498db;
+    /* border-color: #3498db; */
+    border-color: (--blue-500);
     outline: none;
     box-shadow: 0 0 8px rgba(52, 152, 219, 0.3);
 }
@@ -84,9 +151,10 @@ input[type="checkbox"] {
     vertical-align: middle;
 }
 
+
 .newsletter-label {
     font-weight: 500;
-    color: #34495e;
+    color: var(--blue-900);
     display: flex;
     align-items: center;
     margin-bottom: 25px;
@@ -95,86 +163,206 @@ input[type="checkbox"] {
 
 button {
     width: 100%;
-    background: #d5b893;
-    color: #632024;
-    font-weight: 700;
+    background-color: var(--blue-500);
+    color: var(--blue-100);
+    font-weight: 600;
     font-size: 1.1rem;
     padding: 14px 0;
-    border: none;
-    border-radius: 10px;
+    border: 2px solid transparent;
+    border-radius: 50px;
     cursor: pointer;
-    box-shadow: 0 6px 12px #6F4D38;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 button:hover {
-    background: #632024;
-    color: #d5b893;
-    box-shadow: 0 8px 18px #6F4D38;
+    /* this is just my personal preferance, you can go howwever you want */
+    background-color: var(--blue-100);
+    color: var(--blue-700);
+    border-color: var(--blue-700);
 }
 
 button:active {
-    background: #d5b893;
-    box-shadow: 0 4px 10px #6F4D38;
+    background: var(--blue-700);
+    /* box-shadow: 0 4px 10px #6F4D38; */
+    /* when you use box shadow dont go so dark, keep it sublime and reduce the opacity */
+}
+
+.app-name h1 {
+    color: var(--blue-900);
+}
+
+.app-caption h2 {
+    font-size: 2rem;
+}
+
+.h2-span {
+    font-size: 3.5rem;
+}
+
+.container-app-name {
+    text-align: center;
+}
+
+.caption {
+    font-size: 1rem;
+    color: var(--blue-700);
+    margin-top: 12px;
+    text-align: center;
 }
 
 /* Responsive */
-@media (max-width: 520px) {
+/* @media (max-width: 520px) {
     .container {
         padding: 25px 20px;
         margin: 0 10px;
     }
+} */
+
+
+@media (max-width: 768px) {
+
+    .container-main-div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0 10px;
+        margin-top: 10%;
+    }
+
+    .container-left {
+        max-height: 250px;
+        width: 100%;
+        border-radius: 16px;
+        margin-bottom: 20px;
+    }
+
+    .container-left-img {
+        height: 100%;
+    }
+
+    .container-img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        border-radius: 16px;
+    }
+
+    .container {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .app-caption h2 {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+
+    .h2-span {
+        font-size: 2.5rem;
+    }
+
+    .caption {
+        font-size: 0.9rem;
+    }
+
+    .navbar {
+
+        align-items: flex-start;
+        padding: 10px;
+    }
+
+    .navbar-container {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .footer {
+        position: relative;
+        top: auto;
+        margin-top: 60px;
+        padding: 10px 5px;
+    }
+
+    .footer p,
+    .footer a {
+        font-size: 1.rem;
+    }
 }
+
 
 /* Navbar styles */
 .navbar {
-  width: 100%;
-  background-color: #632024e3;
-  padding: 5px 20px;
-  box-shadow: 0 2px 6px #6F4D38;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1000;
+    /* sorry about your logo make it white 🙏 */
+    width: 100%;
+    /* background-color: var(--blue-900); */
+    padding: 5px 20px;
+    /* box-shadow: 0 2px 6px #6F4D38; */
+    position: fixed;
+    border-bottom: 2px solid var(--blue-900);
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    /* why 1000? i mean makes no difference but you do not have so many componenets */
+    display: flex;
+    justify-content: space-between;
 }
 
 .navbar-container {
-  max-width: 480px;
-  align-items: center;
-  display: flex;
+    max-width: 480px;
+    align-items: center;
+    display: flex;
 }
 
 .logo {
-  height: 45px;
-  width: 100px;
-  margin-right: 12px;
+    height: 45px;
+    width: 100px;
+    margin-right: 12px;
+}
+
+.user-image {
+    width: 45px;
+
+    overflow: hidden;
+}
+
+.user {
+    width: 100%;
+    border-radius: 50%;
+    border: 2px solid var(--blue-900);
 }
 
 
 /* Footer styles */
+/* generally footers are simple and just have the information in the center. */
 .footer {
-  width: 100%;
-  background-color: #632024;
-  color: #6F4D38;
-  text-align: center;
-  padding: 16px 20px;
-  font-size: 0.9rem;
-  box-shadow: 0 -2px 6px #6F4D38;
-  margin-top: 40px;
+    position: fixed;
+    top: 90%;
+    width: 100%;
+    /* background-color: #632024;
+    color: #6F4D38; */
+    text-align: center;
+    /* padding: 16px 20px; */
+    font-size: 0.9rem;
+    /* box-shadow: 0 -2px 6px #6F4D38; */
+    margin-top: 40px;
+    color: var(--blue-900);
 }
 
 .footer a {
-  color: #d5b893;
-  text-decoration: none;
-  margin: 0 6px;
+    /* color: #d5b893; */
+    text-decoration: none;
+    margin: 0 6px;
 }
 
 .footer p {
-    color: #fff;
-    font-style: italic;
+    /* color: #fff; */
+    color: var(--blue-900);
+    /* font-style: italic; */
 }
 
+/* what is with you and box shadows girl 😭. even if you do use em {highly recommend not to}, reduce the opacity a lot */
 .footer a:hover {
-    text-shadow: 0 4px 10px #6F4D38;;
+    /* text-shadow: 0 4px 10px #6F4D38;
+    ; */
     text-decoration: underline;
 }
