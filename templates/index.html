@@ -4,27 +4,81 @@
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="/static/style.css" />
     <title>{{.AppName}} - Book Tickets</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
 <body>
     <nav class="navbar">
-        <div class="navbar-container">
-        <img src="/static/logo.png" alt="ReserGo Logo" class="logo"/>
-        </div>
+      <div class="navbar-container">
+        <img src="/static/logo.png" alt="ReserGo Logo" class="logo" />
+      </div>
+
+      <div class="user-image">
+        <img
+          src="https://avatars.githubusercontent.com/u/91026126?v=4"
+          alt=""
+          class="user"
+        />
+      </div>
     </nav>
 
-    <div class="container">
-        <h1>Welcome to {{.AppName}} Booking Application</h1>
-        <p>We have {{.TotalTickets}} tickets in total, and {{.RemainingTickets}} tickets are available.</p>
+    <div class="container-main-div">
+        <div class="container-left">
+            <div class="container-left-img">
+            <img src="/static/tickets-image.jpg" alt="" class="container-img" />
+            </div>
+        </div>
 
-        <form action="/book" method="POST">
-            <label>First Name: <input type="text" name="firstName" required minlength="1" /></label><br/><br/>
-            <label>Last Name: <input type="text" name="lastName" required minlength="1" /></label><br/><br/>
-            <label>Email: <input type="email" name="email" required /></label><br/><br/>
-            <label>Number of Tickets: <input type="number" name="tickets" min="1" max="{{.RemainingTickets}}" required /></label><br/><br/>
-            <label><input type="checkbox" name="newsletter" /> Opt-in for newsletter</label><br/><br/>
+        <div class="container">
+            <form action="/book" method="POST">
+            <div class="app-caption">
+                <h2>Book your Tickets - <span class="h2-span">Hassle Free</span></h2>
+            </div>
+            <div class="caption">
+                Tickets Available: {{.RemainingTickets}} / {{.TotalTickets}}
+            </div>
+
+            <input
+                type="text"
+                name="firstName"
+                required
+                minlength="1"
+                placeholder="First Name"
+            />
+            <br /><br />
+            <input
+                type="text"
+                name="lastName"
+                required
+                minlength="1"
+                placeholder="Last Name"
+            />
+            <br /><br />
+            <input
+                type="email"
+                name="email"
+                required
+                placeholder="xyz@domain.com"
+            />
+            <br /><br />
+            <input
+                type="number"
+                name="tickets"
+                min="1"
+                max="{{.RemainingTickets}}"
+                placeholder="Tickets"
+                required
+            />
+            <br /><br />
+            <label class="newsletter-label">
+                <input type="checkbox" name="newsletter" />
+                <span> Opt-in for newsletter </span>
+            </label>
+
             <button type="submit">Book Tickets</button>
-        </form>
+            </form>
+        </div>
     </div>
+
 
     <footer class="footer">
         <p>Created by Annarhysa Albert | 

@@ -2,10 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <link rel="stylesheet" href="/static/confirmation.css" />
+    <link rel="stylesheet" href="/static/style.css" />
     <title>Booking Confirmation</title>
 </head>
 <body>
+    <nav class="navbar">
+      <div class="navbar-container">
+        <img src="/static/logo.png" alt="ReserGo Logo" class="logo" />
+      </div>
+
+      <div class="user-image">
+        <img
+          src="https://avatars.githubusercontent.com/u/91026126?v=4"
+          alt=""
+          class="user"
+        />
+      </div>
+    </nav>
+
     <div class="confirmation-container">
         <h1>Thank you, {{.FirstName}} {{.LastName}}!</h1>
         <p>You have successfully booked {{.NumberOfTickets}} ticket(s).</p>
@@ -13,5 +27,12 @@
         <p>Tickets remaining: {{.Remaining}}</p>
         <a href="/">Book more tickets</a>
     </div>
+
+    <footer class="footer">
+        <p>Created by Annarhysa Albert | 
+        <a href="https://www.linkedin.com/in/annarhysa-albert-92550918b/" target="_blank" rel="noopener">LinkedIn</a> | 
+        <a href="https://github.com/Annarhysa/ReserGo" target="_blank" rel="noopener">Source Code</a>
+        </p>
+    </footer>
 </body>
 </html>
