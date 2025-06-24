@@ -12,6 +12,11 @@
     --blue-100: #c7daa0;
 }
 
+html, body{
+    width: 100%;
+    height: 70px;
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: var(--blue-100);
@@ -22,8 +27,7 @@ body {
 
 .container-main-div {
     display: grid;
-    grid-template-columns: 2.2fr 1fr;
-    margin: 0 auto;
+    grid-template-columns: 2.2fr 1.2fr;
     max-width: 100%;
     align-items: center;
     margin-top: 1%;
@@ -178,7 +182,6 @@ button:active {
         max-height: 250px;
         width: 100%;
         border-radius: 16px;
-        margin-bottom: 20px;
     }
     .container-left-img {
         height: 100%;
@@ -210,18 +213,6 @@ button:active {
     .navbar-container {
         width: 100%;
         justify-content: space-between;
-    }
-    .footer {
-        position: relative;
-        top: auto;
-        margin-top: 60px;
-        padding: 10px 5px;
-    }
-    .footer p,
-    .footer a {
-        font-size: 1rem;
-        color: var(--blue-500);
-        font-style: italic;
     }
 }
 
@@ -262,12 +253,14 @@ button:active {
 }
 
 .footer {
-    top: 90%;
     width: 100%;
     text-align: center;
     font-size: 0.9rem;
-    margin-top: 90px;
+    margin-top: 10px;
     color: var(--blue-900);
+    padding-bottom: 1px;
+    padding-inline-start: 10px;
+    align-items: center;
 }
 
 .footer a {
@@ -298,7 +291,7 @@ button:active {
     box-shadow: 0 8px 24px rgba(99, 32, 36, 0.5);
     transition: box-shadow 0.3s ease;
     text-align: center;
-    margin-bottom: 150px;
+    margin-bottom: 119px;
 }
 
 .confirmation-container p {
