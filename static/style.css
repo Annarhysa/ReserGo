@@ -5,11 +5,16 @@
 }
 
 :root {
-    --blue-900: #03045E;
-    --blue-700: #0077B6;
-    --blue-500: #00B4D8;
-    --blue-300: #90E0EF;
-    --blue-100: rgb(213, 251, 156);
+    --blue-900: #103309;
+    --blue-700: #6ab04f;
+    --blue-500: #5095e0;
+    --blue-300: rgb(102, 189, 4);
+    --blue-100: #c7daa0;
+}
+
+html, body{
+    width: 100%;
+    height: 70px;
 }
 
 body {
@@ -22,8 +27,7 @@ body {
 
 .container-main-div {
     display: grid;
-    grid-template-columns: 2.5fr 1fr;
-    margin: 0 auto;
+    grid-template-columns: 2.2fr 1.2fr;
     max-width: 100%;
     align-items: center;
     margin-top: 1%;
@@ -32,7 +36,7 @@ body {
 .container-left {
     width: 100%;
     height: 100%;
-    max-height: 540px;
+    max-height: 550px;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -121,8 +125,8 @@ input[type="checkbox"] {
 
 button {
     width: 100%;
-    background-color: var(--blue-500);
-    color: var(--blue-900);
+    background-color: var(--blue-900);
+    color: var(--blue-700);
     font-weight: 600;
     font-size: 1.1rem;
     padding: 14px 0;
@@ -152,6 +156,7 @@ button:active {
 
 .h2-span {
     font-size: 3.5rem;
+    color: #497a3f;
 }
 
 .container-app-name {
@@ -177,7 +182,6 @@ button:active {
         max-height: 250px;
         width: 100%;
         border-radius: 16px;
-        margin-bottom: 20px;
     }
     .container-left-img {
         height: 100%;
@@ -209,16 +213,6 @@ button:active {
     .navbar-container {
         width: 100%;
         justify-content: space-between;
-    }
-    .footer {
-        position: relative;
-        top: auto;
-        margin-top: 60px;
-        padding: 10px 5px;
-    }
-    .footer p,
-    .footer a {
-        font-size: 1rem;
     }
 }
 
@@ -259,18 +253,21 @@ button:active {
 }
 
 .footer {
-    /* position: fixed; */
-    top: 90%;
     width: 100%;
     text-align: center;
     font-size: 0.9rem;
-    margin-top: 40px;
+    margin-top: 10px;
     color: var(--blue-900);
+    padding-bottom: 1px;
+    padding-inline-start: 10px;
+    align-items: center;
 }
 
 .footer a {
     text-decoration: none;
     margin: 0 6px;
+    color: var(--blue-500);
+    font-style: italic;
 }
 
 .footer p {
@@ -282,7 +279,7 @@ button:active {
 }
 
 .confirmation-container {
-    background: var(--blue-500);
+    background: var(--blue-900);
     margin-top: 50px;
     margin-bottom: 50px;
     margin-left: auto;
@@ -294,8 +291,13 @@ button:active {
     box-shadow: 0 8px 24px rgba(99, 32, 36, 0.5);
     transition: box-shadow 0.3s ease;
     text-align: center;
+    margin-bottom: 119px;
 }
 
 .confirmation-container p {
-    color: var(--blue-900);
+    color: var(--blue-100);
+}
+
+.confirmation-container a{
+    color: var(--blue-500);
 }
