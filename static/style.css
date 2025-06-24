@@ -5,11 +5,11 @@
 }
 
 :root {
-    --blue-900: #03045E;
-    --blue-700: #0077B6;
-    --blue-500: #00B4D8;
-    --blue-300: #90E0EF;
-    --blue-100: rgb(213, 251, 156);
+    --blue-900: #103309;
+    --blue-700: #6ab04f;
+    --blue-500: #5095e0;
+    --blue-300: rgb(102, 189, 4);
+    --blue-100: #c7daa0;
 }
 
 body {
@@ -22,7 +22,7 @@ body {
 
 .container-main-div {
     display: grid;
-    grid-template-columns: 2.5fr 1fr;
+    grid-template-columns: 2.2fr 1fr;
     margin: 0 auto;
     max-width: 100%;
     align-items: center;
@@ -32,7 +32,7 @@ body {
 .container-left {
     width: 100%;
     height: 100%;
-    max-height: 540px;
+    max-height: 550px;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -121,8 +121,8 @@ input[type="checkbox"] {
 
 button {
     width: 100%;
-    background-color: var(--blue-500);
-    color: var(--blue-900);
+    background-color: var(--blue-900);
+    color: var(--blue-700);
     font-weight: 600;
     font-size: 1.1rem;
     padding: 14px 0;
@@ -152,6 +152,7 @@ button:active {
 
 .h2-span {
     font-size: 3.5rem;
+    color: #497a3f;
 }
 
 .container-app-name {
@@ -219,6 +220,8 @@ button:active {
     .footer p,
     .footer a {
         font-size: 1rem;
+        color: var(--blue-500);
+        font-style: italic;
     }
 }
 
@@ -259,18 +262,19 @@ button:active {
 }
 
 .footer {
-    /* position: fixed; */
     top: 90%;
     width: 100%;
     text-align: center;
     font-size: 0.9rem;
-    margin-top: 40px;
+    margin-top: 90px;
     color: var(--blue-900);
 }
 
 .footer a {
     text-decoration: none;
     margin: 0 6px;
+    color: var(--blue-500);
+    font-style: italic;
 }
 
 .footer p {
@@ -282,7 +286,7 @@ button:active {
 }
 
 .confirmation-container {
-    background: var(--blue-500);
+    background: var(--blue-900);
     margin-top: 50px;
     margin-bottom: 50px;
     margin-left: auto;
@@ -294,8 +298,13 @@ button:active {
     box-shadow: 0 8px 24px rgba(99, 32, 36, 0.5);
     transition: box-shadow 0.3s ease;
     text-align: center;
+    margin-bottom: 150px;
 }
 
 .confirmation-container p {
-    color: var(--blue-900);
+    color: var(--blue-100);
+}
+
+.confirmation-container a{
+    color: var(--blue-500);
 }
