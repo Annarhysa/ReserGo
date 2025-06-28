@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="/static/confirmation.css" />
     <title>Booking Confirmation</title>
-</head>
-<body>
+  </head>
+  <body>
     <div class="confirmation-container">
-        <h1>Thank you, {{.FirstName}} {{.LastName}}!</h1>
-        <p>You have successfully booked {{.NumberOfTickets}} ticket(s).</p>
-        <p>A confirmation email will be sent to: {{.Email}}</p>
-        <p>Tickets remaining: {{.Remaining}}</p>
-        <a href="/">Book more tickets</a>
+      <h1>Thank you, {{.FirstName}} {{.LastName}}!</h1>
+      <p>You have successfully booked {{.NumberOfTickets}} ticket(s).</p>
+      <p>A confirmation email will be sent to: {{.Email}}</p>
+      <p>Tickets remaining: {{.Remaining}}</p>
+      <a href="/">Book more tickets</a>
     </div>
-</body>
+
+    <!-- Testing -->
+  </body>
 </html>
